@@ -1,4 +1,4 @@
-def dockerRun = "sudo docker run -it -p 89:80 -d --name VirtualCabinetryCI89CD chika1984/myapp:18.0.2"
+def dockerRun = "sudo docker run -it -p 8096:80 -d --name VirtualCabinetryCI8096CD chika1984/myapp:3.0.6"
 pipeline {
   agent any
       stages {
@@ -15,7 +15,7 @@ pipeline {
 		  agent { label 'master' }
 		  	  
          steps {
-			sh 'docker build -t chika1984/myapp:18.0.2 .'
+			sh 'docker build -t chika1984/myapp:3.0.6 .'
 
 			}
 		}	
@@ -26,7 +26,7 @@ pipeline {
 			withCredentials([string(credentialsId: 'docker-hub', variable: 'dockerHubPwd')]) {
             sh "docker login -u chika1984 -p ${dockerHubPwd}"
 			}
-			sh 'docker push chika1984/myapp:18.0.2'
+			sh 'docker push chika1984/myapp:3.0.6'
 		} 	
 		}
 		 stage('Run Docker image on STAGE Server') {
